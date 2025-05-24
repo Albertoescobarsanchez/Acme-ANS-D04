@@ -94,6 +94,7 @@ public class FlightCrewMemberAssignmentFlightCreateService extends AbstractGuiSe
 	public void perform(final FlightAssignment object) {
 		assert object != null;
 		object.setId(0);
+		object.setLastUpdate(MomentHelper.getCurrentMoment());
 		this.repository.save(object);
 
 	}

@@ -54,7 +54,6 @@ public class FlightCrewMemberAssignmentFlightUpdateService extends AbstractGuiSe
 		flightAssignment.setDraftMode(true);
 		flightAssignmentId = super.getRequest().getData("id", int.class);
 		flightAssignment = this.repository.findFlightAssignmentById(flightAssignmentId);
-		flightAssignment.setLastUpdate(MomentHelper.getCurrentMoment());
 		super.getBuffer().addData(flightAssignment);
 	}
 
@@ -98,6 +97,7 @@ public class FlightCrewMemberAssignmentFlightUpdateService extends AbstractGuiSe
 
 	@Override
 	public void perform(final FlightAssignment assignment) {
+		assignment.setLastUpdate(MomentHelper.getCurrentMoment());
 		this.repository.save(assignment);
 	}
 

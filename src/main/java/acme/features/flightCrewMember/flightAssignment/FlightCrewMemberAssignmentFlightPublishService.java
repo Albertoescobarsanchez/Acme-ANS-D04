@@ -68,9 +68,6 @@ public class FlightCrewMemberAssignmentFlightPublishService extends AbstractGuiS
 
 	@Override
 	public void validate(final FlightAssignment object) {
-		super.state(object.getMember() != null, "*", "acme.validation.flightAssignment.flightcrewmember");
-		super.state(object.getLeg() != null, "*", "acme.validation.flightAssignment.leg");
-
 		if (object.getLeg() != null) {
 			Date hora = object.getLeg().getScheduledDeparture();
 			boolean linkPastLeg = object.getLastUpdate().before(hora);
