@@ -17,13 +17,13 @@
 
 <acme:form>
 	<acme:input-moment code="assistance-agent.claim.form.label.registrationMoment" path="registrationMoment" readonly="true"/>
-	<acme:input-email code="assistance-agent.claim.form.label.passengerEmail" path="passengerEmail"/>
-	<acme:input-textarea code="assistance-agent.claim.form.label.description" path="description"/>
-	<acme:input-select code="assistance-agent.claim.form.label.claimType" path="claimType"  choices="${claimTypes}"/>
+	<acme:input-email code="assistance-agent.claim.form.label.passengerEmail" path="passengerEmail" readonly="${!draftMode}"/>
+	<acme:input-textarea code="assistance-agent.claim.form.label.description" path="description" readonly="${!draftMode}"/>
+	<acme:input-select code="assistance-agent.claim.form.label.claimType" path="claimType"  choices="${claimTypes}" readonly="${!draftMode}"/>
 	<acme:input-textbox code="assistance-agent.claim.form.label.indicator" path="getIndicator" readonly="true"/>
 	
 	<jstl:if test="${pending == true || pending == null}">
-		<acme:input-select code="assistance-agent.claim.form.label.leg" path="leg" choices="${legs}"/>
+		<acme:input-select code="assistance-agent.claim.form.label.leg" path="leg" choices="${legs}" readonly="${!draftMode}"/>
 	</jstl:if>	
 	
 	<jstl:if test="${_command != 'create'}">

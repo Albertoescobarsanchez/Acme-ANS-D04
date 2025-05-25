@@ -40,6 +40,7 @@ public class AssistanceAgentTrackingLogUpdateService extends AbstractGuiService<
 	public void load() {
 		TrackingLog trackingLog;
 		int id;
+
 		Date today = MomentHelper.getCurrentMoment();
 		id = super.getRequest().getData("id", int.class);
 		Claim claim = this.repository.findClaimByTrackingLogId(id);

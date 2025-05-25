@@ -59,12 +59,13 @@ public class AssistanceAgentClaimShowService extends AbstractGuiService<Assistan
 		SelectChoices legChoices = SelectChoices.from(legs, "flightNumber", claim.getLeg());
 		boolean pending = claim.getIndicator().equals(Indicator.PENDING);
 
-		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "claimType", "draftMode");
+		dataset = super.unbindObject(claim, "registrationMoment", "passengerEmail", "description", "draftMode");
 		dataset.put("claimTypes", claimTypeChoices);
 		dataset.put("getIndicator", claim.getIndicator());
 		dataset.put("leg", claim.getLeg());
 		dataset.put("legs", legChoices);
 		dataset.put("pending", pending);
+		dataset.put("draftMode", claim.isDraftMode());
 
 		super.getResponse().addData(dataset);
 	}

@@ -15,7 +15,7 @@ public interface ClaimRepository extends AbstractRepository {
 	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId ORDER BY t.resolutionPercentage desc, t.updateMoment desc")
 	Collection<TrackingLog> findAllByClaimId(int claimId);
 
-	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = 100.0")
-	Collection<TrackingLog> findCompletedTrackingLogsByClaimId(int claimId);
+	@Query("SELECT t FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = :resolutionPercentage AND t.draftMode = false")
+	Collection<TrackingLog> findTrackingLogsOfClaimByResolutionPercentage(int claimId, double resolutionPercentage);
 
 }
