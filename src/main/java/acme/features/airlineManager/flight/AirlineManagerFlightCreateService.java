@@ -69,7 +69,7 @@ public class AirlineManagerFlightCreateService extends AbstractGuiService<Airlin
 		assert object != null;
 		List<Flight> flights = new ArrayList<>(this.repository.findAllFlights());
 		boolean repeatedTag = flights.stream().anyMatch(flight -> flight.getId() != object.getId() && flight.getTag().equals(object.getTag()));
-		super.state(repeatedTag, "*", "airline-manager.flight.form.error.repeatedTag");
+		super.state(!repeatedTag, "*", "airline-manager.flight.form.error.repeatedTag");
 	}
 
 	@Override

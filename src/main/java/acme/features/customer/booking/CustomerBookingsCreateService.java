@@ -14,7 +14,6 @@ import acme.client.services.GuiService;
 import acme.entities.booking.Booking;
 import acme.entities.booking.TravelClass;
 import acme.entities.flight.Flight;
-import acme.entities.passenger.Passenger;
 import acme.features.airlineManager.flight.AirlineManagerFlightRepository;
 import acme.realms.Customer;
 
@@ -72,15 +71,15 @@ public class CustomerBookingsCreateService extends AbstractGuiService<Customer, 
 
 	@Override
 	public void validate(final Booking booking) {
-		Booking b = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
-		if (b != null)
-			super.state(false, "locatorCode", "acme.validation.confirmation.message.booking.locator-code");
+		//		Booking b = this.repository.findBookingByLocatorCode(booking.getLocatorCode());
+		//		if (b != null)
+		//			super.state(false, "locatorCode", "acme.validation.confirmation.message.booking.locator-code");
 	}
 
 	@Override
 	public void perform(final Booking booking) {
-		Date today = MomentHelper.getCurrentMoment();
-		booking.setPurchaseMoment(today);
+		//		Date today = MomentHelper.getCurrentMoment();
+		//		booking.setPurchaseMoment(today);
 		this.repository.save(booking);
 	}
 
@@ -89,14 +88,14 @@ public class CustomerBookingsCreateService extends AbstractGuiService<Customer, 
 		Dataset dataset;
 		SelectChoices choices;
 		SelectChoices flightChoices;
-		//		Date today = MomentHelper.getCurrentMoment();
 
-		Collection<Flight> flights = this.flightRepository.findAllFlights().stream().filter(f -> f.getDraftMode() == false).toList();
+		Date today = MomentHelper.getCurrentMoment();
+		Collection<Flight> flights = this.repository.findAllPublishedFlightsWithFutureDeparture(today);
 		flightChoices = SelectChoices.from(flights, "tag", booking.getFlight());
 		choices = SelectChoices.from(TravelClass.class, booking.getTravelClass());
 
-		Collection<Passenger> passengerN = this.repository.findPassengersByBookingId(booking.getId());
-		Collection<String> passengers = passengerN.stream().map(p -> p.getFullName()).toList();
+		//		Collection<Passenger> passengerN = this.repository.findPassengersByBookingId(booking.getId());
+		Collection<String> passengers = this.repository.findPassengersNameByBooking(booking.getId());
 
 		dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "price", "draftMode", "lastNibble");
 		dataset.put("travelClass", choices);

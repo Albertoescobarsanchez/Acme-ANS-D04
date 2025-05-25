@@ -10,7 +10,7 @@ import acme.client.services.GuiService;
 import acme.entities.claim.Claim;
 import acme.entities.claim.Indicator;
 import acme.entities.trackingLog.TrackingLog;
-import acme.realms.AssistanceAgent;
+import acme.realms.AssistanceAgent.AssistanceAgent;
 
 @GuiService
 public class AssistanceAgentTrackingLogShowService extends AbstractGuiService<AssistanceAgent, TrackingLog> {

@@ -41,26 +41,26 @@ public class CustomerBookingRecordCreateService extends AbstractGuiService<Custo
 
 	@Override
 	public void load() {
-		BookingRecord booking;
-		booking = new BookingRecord();
+		BookingRecord booking = new BookingRecord();
 		super.getBuffer().addData(booking);
 	}
 
 	@Override
 	public void bind(final BookingRecord bookingRecord) {
-		Booking booking;
-		int bookingId;
-		Passenger passenger;
-		int passengerId;
-
-		bookingId = super.getRequest().getData("booking", int.class);
-		booking = this.bookingRepository.findBookingById(bookingId);
-		passengerId = super.getRequest().getData("passenger", int.class);
-		passenger = this.passengerRepository.findPassengerById(passengerId);
-
-		super.bindObject(bookingRecord);
-		bookingRecord.setBooking(booking);
-		bookingRecord.setPassenger(passenger);
+		//				Booking booking;
+		//				int bookingId;
+		//				Passenger passenger;
+		//				int passengerId;
+		//		
+		//				bookingId = super.getRequest().getData("booking", int.class);
+		//				booking = this.bookingRepository.findBookingById(bookingId);
+		//				passengerId = super.getRequest().getData("passenger", int.class);
+		//				passenger = this.passengerRepository.findPassengerById(passengerId);
+		//		
+		//				super.bindObject(bookingRecord);
+		//				bookingRecord.setBooking(booking);
+		//				bookingRecord.setPassenger(passenger);
+		super.bindObject(bookingRecord, "booking", "passenger");
 	}
 
 	@Override
@@ -93,11 +93,12 @@ public class CustomerBookingRecordCreateService extends AbstractGuiService<Custo
 		SelectChoices passengerChoices;
 		SelectChoices bookingChoices;
 
+		int customerAccountId = super.getRequest().getPrincipal().getActiveRealm().getUserAccount().getId();
 		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		Collection<Booking> bookings = this.bookingRepository.findBookingByCustomerId(customerId);
-		Collection<Passenger> passengers = this.passengerRepository.findPassengersByCustomerId(customerId).stream().filter(p -> !p.isDraftMode()).toList();
 
-		System.out.println(bookings);
+		Collection<Booking> bookings = this.bookingRepository.findBookingByCustomerId(customerAccountId);
+		Collection<Passenger> passengers = this.passengerRepository.findPublishedPassengersByCustomerId(customerId);
+
 		bookingChoices = SelectChoices.from(bookings, "locatorCode", bookingRecord.getBooking());
 		passengerChoices = SelectChoices.from(passengers, "fullName", bookingRecord.getPassenger());
 

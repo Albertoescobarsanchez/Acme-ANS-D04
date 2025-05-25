@@ -2,7 +2,6 @@
 package acme.features.assistanceAgent.trackingLog;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +15,7 @@ import acme.entities.claim.Claim;
 import acme.entities.claim.Indicator;
 import acme.entities.trackingLog.TrackingLog;
 import acme.features.assistanceAgent.claim.AssistanceAgentClaimRepository;
-import acme.realms.AssistanceAgent;
+import acme.realms.AssistanceAgent.AssistanceAgent;
 
 @GuiService
 public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<AssistanceAgent, TrackingLog> {
@@ -64,14 +63,12 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 
 	@Override
 	public void validate(final TrackingLog trackingLog) {
-		List<TrackingLog> trackingLogs = this.repository.findTrackingLogsOrderByResolutionPercentage();
-
-		if (!trackingLogs.isEmpty() && trackingLog.getResolutionPercentage() < trackingLogs.get(0).getResolutionPercentage())
-			super.state(false, "resolutionPercentage", "acme.validation.draftMode.message");
+		;
 	}
 
 	@Override
 	public void perform(final TrackingLog trackingLog) {
+		trackingLog.setUpdateMoment(MomentHelper.getCurrentMoment());
 		this.repository.save(trackingLog);
 	}
 
