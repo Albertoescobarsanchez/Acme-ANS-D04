@@ -27,10 +27,13 @@ public class AdministratorWeatherController extends AbstractGuiController<Admini
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private AdministratorWeatherListService	listService;
+	private AdministratorWeatherListService		listService;
 
 	@Autowired
-	private AdministratorWeatherShowService	showService;
+	private AdministratorWeatherShowService		showService;
+
+	@Autowired
+	private AdministratorWeatherUpdateService	updateService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -39,6 +42,7 @@ public class AdministratorWeatherController extends AbstractGuiController<Admini
 	protected void initialise() {
 		super.addBasicCommand("list", this.listService);
 		super.addBasicCommand("show", this.showService);
+		super.addBasicCommand("update", this.updateService);
 	}
 
 }

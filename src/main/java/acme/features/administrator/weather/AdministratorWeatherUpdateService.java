@@ -12,19 +12,19 @@
 
 package acme.features.administrator.weather;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import acme.client.components.models.Dataset;
 import acme.client.components.principals.Administrator;
 import acme.client.helpers.PrincipalHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.flight.Flight;
 import acme.entities.weather.WeatherData;
-import acme.realms.AirlineManager;
 
 @GuiService
-public class AdministratorWeatherCreateService extends AbstractGuiService<Administrator, WeatherData> {
+public class AdministratorWeatherUpdateService extends AbstractGuiService<Administrator, WeatherData> {
 
 	// Internal state ---------------------------------------------------------
 
@@ -36,54 +36,37 @@ public class AdministratorWeatherCreateService extends AbstractGuiService<Admini
 	public void authorise() {
 		boolean status;
 
-		status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class);
+		status = super.getRequest().getPrincipal().hasRealmOfType(Administrator.class);
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		Flight flight;
-		int managerId;
-		AirlineManager manager;
+		List<WeatherData> objects = new ArrayList<>();
 
-		managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		manager = this.repository.findAirlineManagerById(managerId);
-
-		flight = new Flight();
-		flight.setAirlineManager(manager);
-		flight.setDraftMode(true);
-		super.getBuffer().addData(flight);
+		super.getBuffer().addData(objects);
 	}
 
 	@Override
 	public void bind(final WeatherData object) {
-		assert object != null;
 
-		super.bindObject(object, "tag", "selfTransfer", "cost", "description");
 	}
 
 	@Override
 	public void validate(final WeatherData object) {
-		assert object != null;
 
 	}
 
 	@Override
 	public void perform(final WeatherData object) {
 		assert object != null;
-		object.setId(0);
 		this.repository.save(object);
 	}
 
 	@Override
 	public void unbind(final WeatherData object) {
 
-		Dataset dataset;
-
-		dataset = super.unbindObject(object, "tag", "selfTransfer", "cost", "description");
-
-		super.getResponse().addData(dataset);
 	}
 
 	@Override
